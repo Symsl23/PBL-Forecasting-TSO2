@@ -90,9 +90,9 @@ Forecast results are stored in a `Forecasts` sheet with:
 
 ## 📦 Future Plans
 To improve forecasting:
-- Add error metrics (MAE, RMSE)
-- Introduce ARIMA or machine learning (LSTM)
-- Enable anomaly detection using forecast deviation
+- Add error metrics (MAE, RMSE, MAPE) to ensuring forecasting are reliable and justifiable
+- Introduce ARIMA or another advanced algorithm for better accuracy and adaptibility
+- Enable anomaly detection using forecast deviation to trigger alert if exceeds a threshold
 
 ---
 
