@@ -2,8 +2,8 @@
 
 ## 📖 Table of Contents
 
-- [Overview](#Project-Context)
-- [Forecasting Algorithm Selection](#Selected-Forecasting-Algorithms)
+- [🔍Project Context](#Project-Context)
+- [Selected Forecasting Algorithms](#Selected-Forecasting-Algorithms)
 - [Implementation Details](#Comparison-Summary)
 - [Results](#results)
 - [Future Improvements](#future-improvements)
