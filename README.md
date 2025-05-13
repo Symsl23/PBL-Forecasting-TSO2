@@ -1,4 +1,12 @@
-# PBL-Forecasting-TSO2
+# 📡PBL-Forecasting-TSO2
+
+## 📖 Table of Contents
+
+- [Overview](#Project-Context)
+- [Forecasting Algorithm Selection](#Selected-Forecasting-Algorithms)
+- [Implementation Details](#Comparison-Summary)
+- [Results](#results)
+- [Future Improvements](#future-improvements)
 
 # 📈 Forecasting Algorithm Selection – IoT Sensor Data Project
 
