@@ -99,6 +99,5 @@ To improve forecasting:
 ## 📁 Related Files
 - `main/Google App Script.txt` – App script implementation to generate data on Google Sheet
 - `main/Latest_Data_Logger.ino` – Source time-series DHT11 data on Arduino IDE
-- `https://lookerstudio.google.com/reporting/539c465f-5813-4fad-b333-68e2e341b934` – Visualization of forecast data on Looker Studio
+- https://lookerstudio.google.com/reporting/539c465f-5813-4fad-b333-68e2e341b934 – Visualization of forecast data on Looker Studio
 
----
