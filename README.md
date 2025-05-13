@@ -1,13 +1,5 @@
 # 📡PBL-Forecasting-TSO2
 
-## 📖 Table of Contents
-
-- [🔍Project Context](#Project-Context)
-- [Selected Forecasting Algorithms](#Selected-Forecasting-Algorithms)
-- [Implementation Details](#Comparison-Summary)
-- [Results](#results)
-- [Future Improvements](#future-improvements)
-
 # 📈 Forecasting Algorithm Selection – IoT Sensor Data Project
 
 This document explains the rationale behind selecting **Linear Regression** and **Holt-Winters** as the forecasting algorithms for our IoT Sensor Data Forecasting System, which uses an ESP32 microcontroller and Google Sheets + Apps Script for processing and visualization.
