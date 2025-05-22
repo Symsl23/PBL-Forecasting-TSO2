@@ -41,108 +41,34 @@ function handleResponse(e) {
     lock.releaseLock();
   }
 }
+function forecastTemperatureHumiditySMA() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const tempData = sheet.getRange("B2:B97").getValues().flat();  // Temperature data
+  const humData = sheet.getRange("C2:C97").getValues().flat();   // Humidity data
+  const windowSize = 5;
 
-function generateForecasts() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("RealData");
-  var forecastSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Forecasts");
+  for (let i = 48; i < 96; i++) {  // Day 3 and 4: rows 49 to 96
+    if (i < windowSize) continue;
 
-  if (!forecastSheet) {
-    forecastSheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet("Forecasts");
+    // Temperature calculations
+    const tempWindow = tempData.slice(i - windowSize, i);
+    const tempAvg = tempWindow.reduce((a, b) => a + b, 0) / windowSize;
+    const tempUpper = tempAvg + 1.5;
+    const tempLower = tempAvg - 1.5;
+
+    // Humidity calculations
+    const humWindow = humData.slice(i - windowSize, i);
+    const humAvg = humWindow.reduce((a, b) => a + b, 0) / windowSize;
+    const humUpper = humAvg + 5;
+    const humLower = humAvg - 5;
+
+    // Write to columns D to I
+    const row = i + 2;
+    sheet.getRange(row, 4).setValue(tempAvg.toFixed(1));   // Column D
+    sheet.getRange(row, 5).setValue(tempUpper.toFixed(1)); // Column E
+    sheet.getRange(row, 6).setValue(tempLower.toFixed(1)); // Column F
+    sheet.getRange(row, 7).setValue(humAvg.toFixed(1));    // Column G
+    sheet.getRange(row, 8).setValue(humUpper.toFixed(1));  // Column H
+    sheet.getRange(row, 9).setValue(humLower.toFixed(1));  // Column I
   }
-  forecastSheet.clear();
-  forecastSheet.appendRow([
-    "Timestamp",
-    "Temp LR", "Temp LR Upper", "Temp LR Lower",
-    "Temp HW", "Temp HW Upper", "Temp HW Lower",
-    "Humidity LR", "Humidity LR Upper", "Humidity LR Lower",
-    "Humidity HW", "Humidity HW Upper", "Humidity HW Lower"
-  ]);
-
-  var numRows = sheet.getLastRow() - 1;
-  if (numRows < 2) {
-    Logger.log("Not enough data.");
-    return;
-  }
-
-  var tempData = sheet.getRange(2, 2, numRows, 1).getValues();
-  var humData = sheet.getRange(2, 3, numRows, 1).getValues();
-
-  var temps = [], hums = [], timeIndices = [];
-  for (var i = 0; i < numRows; i++) {
-    var t = parseFloat(tempData[i][0]);
-    var h = parseFloat(humData[i][0]);
-    if (!isNaN(t) && !isNaN(h)) {
-      timeIndices.push(timeIndices.length);
-      temps.push(t);
-      hums.push(h);
-    }
-  }
-
-  if (temps.length < 2 || hums.length < 2) {
-    Logger.log("Not enough valid data.");
-    return;
-  }
-
-  var lastTimestamp = new Date(sheet.getRange(sheet.getLastRow(), 1).getValue());
-
-  var alpha = 0.6;
-  var beta = 0.4;
-  var hwForecastTemp = holtWintersForecast(temps, alpha, beta, 48);
-  var hwForecastHum = holtWintersForecast(hums, alpha, beta, 48);
-
-  var forecasts = [];
-
-  for (var i = 1; i <= 48; i++) {
-    var nextTime = new Date(lastTimestamp.getTime() + i * 30 * 60 * 1000);
-
-    var forecastTempLR = calculateLinearForecast(timeIndices, temps, i);
-    var forecastHumLR = calculateLinearForecast(timeIndices, hums, i);
-    var forecastTempHW = hwForecastTemp[i - 1];
-    var forecastHumHW = hwForecastHum[i - 1];
-
-    forecasts.push([
-      nextTime,
-      forecastTempLR, forecastTempLR * 1.1, forecastTempLR * 0.9,
-      forecastTempHW, forecastTempHW * 1.1, forecastTempHW * 0.9,
-      forecastHumLR, forecastHumLR * 1.1, forecastHumLR * 0.9,
-      forecastHumHW, forecastHumHW * 1.1, forecastHumHW * 0.9
-    ]);
-  }
-
-  forecastSheet.getRange(2, 1, forecasts.length, 13).setValues(forecasts);
-}
-
-function holtWintersForecast(values, alpha, beta, periodsAhead) {
-  var level = values[0];
-  var trend = values[1] - values[0];
-  var forecasts = [];
-
-  for (var i = 1; i < values.length; i++) {
-    var lastLevel = level;
-    level = alpha * values[i] + (1 - alpha) * (level + trend);
-    trend = beta * (level - lastLevel) + (1 - beta) * trend;
-  }
-
-  for (var i = 1; i <= periodsAhead; i++) {
-    forecasts.push(level + i * trend);
-  }
-
-  return forecasts;
-}
-
-function calculateLinearForecast(timeIndices, values, periodsAhead) {
-  var n = timeIndices.length;
-  var sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
-
-  for (var i = 0; i < n; i++) {
-    sumX += timeIndices[i];
-    sumY += values[i];
-    sumXY += timeIndices[i] * values[i];
-    sumXX += timeIndices[i] * timeIndices[i];
-  }
-
-  var slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
-  var intercept = (sumY - slope * sumX) / n;
-
-  return slope * (n + periodsAhead) + intercept;
 }
