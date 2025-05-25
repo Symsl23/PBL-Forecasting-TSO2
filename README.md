@@ -20,23 +20,12 @@ The system collects time-series data from a DHT11 sensor (temperature and humidi
 ## 📌 Overview
 This project demonstrates the use of Simple Moving Average (SMA) to smooth out temperature and humidity data from a DHT11 sensor. The DHT11 is a basic, low-cost sensor used to measure temperature and humidity, but its readings may fluctuate due to minor environmental changes or sensor noise. SMA helps to filter out these short-term fluctuations and display a more stable reading.
 
-## 🧮 Formula
-The Simple Moving Average (SMA) of a data series is calculated by taking the arithmetic mean of the latest n data points.
-
-\[
-SMA = \frac{X_1 + X_2 + ... + X_n}{n}
-\]
-
-Where:
-- \( X_1, X_2, ..., X_n \) are the most recent sensor values
-- \( n \) is the number of periods (e.g., last 5 readings)
-
 ## ❓ Why SMA is Selected
-Simplicity: Easy to implement using arrays and basic math.
+- Simplicity: Easy to implement using arrays and basic math.
 
-Effectiveness: Reduces short-term fluctuation (noise) in DHT11 readings.
+- Effectiveness: Reduces short-term fluctuation (noise) in DHT11 readings.
 
-Low Resource Use: Ideal for use in microcontrollers and cloud scripts like Google Apps Script.
+- Low Resource Use: Ideal for use in microcontrollers and cloud scripts like Google Apps Script.
 
 ## 👍 Benefits
 Noise Reduction: Smoothens erratic sensor readings.
