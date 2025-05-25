@@ -17,12 +17,10 @@ The system collects time-series data from a DHT11 sensor (temperature and humidi
 
 ## ✅ Selected Forecasting Algorithms
 
-📌 Overview
+## 📌 Overview
 This project demonstrates the use of Simple Moving Average (SMA) to smooth out temperature and humidity data from a DHT11 sensor. The DHT11 is a basic, low-cost sensor used to measure temperature and humidity, but its readings may fluctuate due to minor environmental changes or sensor noise. SMA helps to filter out these short-term fluctuations and display a more stable reading.
 
----
-
-🧮 Formula
+## 🧮 Formula
 The Simple Moving Average (SMA) of a data series is calculated by taking the arithmetic mean of the latest n data points.
 
 𝑆
@@ -84,36 +82,28 @@ n
 𝑛
 n is the number of periods (e.g., last 5 readings)
 
----
-
-❓ Why SMA is Selected
+## ❓ Why SMA is Selected
 Simplicity: Easy to implement using arrays and basic math.
 
 Effectiveness: Reduces short-term fluctuation (noise) in DHT11 readings.
 
 Low Resource Use: Ideal for use in microcontrollers and cloud scripts like Google Apps Script.
 
----
-
-👍 Benefits
+## 👍 Benefits
 Noise Reduction: Smoothens erratic sensor readings.
 
 Real-Time Filtering: Provides more consistent data without delay.
 
 Easy to Implement: Requires minimal code and computational power.
 
----
-
-⚠️ Limitations
+## ⚠️ Limitations
 Lag: Introduces a slight delay in reflecting recent changes.
 
 Fixed Window Size: A static window may not be ideal for all scenarios.
 
 Not Ideal for Sudden Changes: SMA may under-represent rapid spikes or drops in temperature/humidity.
 
----
-
-☁️ Google Apps Script Implementation
+## ☁️ Google Apps Script Implementation
 Google Apps Script is used to log DHT11 sensor data (from ESP32 or similar) into Google Sheets and apply SMA for smoothing.
 
 function calculateSMA(values, period) {
