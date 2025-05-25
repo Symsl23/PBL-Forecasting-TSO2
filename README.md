@@ -106,9 +106,11 @@ Not Ideal for Sudden Changes: SMA may under-represent rapid spikes or drops in t
 ## ☁️ Google Apps Script Implementation
 Google Apps Script is used to log DHT11 sensor data (from ESP32 or similar) into Google Sheets and apply SMA for smoothing.
 
+### Example Code Snippet (Apps Script):
+```javascript
 function calculateSMA(values, period) {
   if (values.length < period) return null;
-  
+
   let sum = 0;
   for (let i = values.length - period; i < values.length; i++) {
     sum += values[i];
@@ -128,9 +130,7 @@ function logSensorData(temp, hum) {
     sheet.getRange(row, 4).setValue(sma); // Column D for SMA
   }
 }
-
-
-
+```
 ---
 
 ## 📦 Future Plans
