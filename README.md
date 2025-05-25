@@ -17,74 +17,129 @@ The system collects time-series data from a DHT11 sensor (temperature and humidi
 
 ## ✅ Selected Forecasting Algorithms
 
-### 1. **Linear Regression**
-
-#### 📌 Overview
-Linear Regression is a simple method used to predict future values based on an underlying linear trend over time.
-
-#### 📐 Formula
-\[
-y = mx + b
-\]
-
-- `m`: Slope (rate of change)
-- `b`: Intercept
-- `x`: Time index
-- `y`: Forecasted value
-
-#### 🧠 Why Selected
-- **Trend detection**: Captures linear increase or decrease in sensor data over time.
-- **Lightweight**: Easy to implement and fast to compute.
-- **Best for**: Steady environments where values increase or decrease predictably.
-
-#### 📉 Limitations
-- Cannot model seasonality or repeating patterns.
-- Assumes data follows a straight-line trend, which may not always hold.
+📌 Overview
+This project demonstrates the use of Simple Moving Average (SMA) to smooth out temperature and humidity data from a DHT11 sensor. The DHT11 is a basic, low-cost sensor used to measure temperature and humidity, but its readings may fluctuate due to minor environmental changes or sensor noise. SMA helps to filter out these short-term fluctuations and display a more stable reading.
 
 ---
 
-### 2. **Holt-Winters Exponential Smoothing**
+🧮 Formula
+The Simple Moving Average (SMA) of a data series is calculated by taking the arithmetic mean of the latest n data points.
 
-#### 📌 Overview
-Holt-Winters (double exponential smoothing) accounts for both **level** and **trend** in the data, offering better adaptability for non-static data.
+𝑆
+𝑀
+𝐴
+=
+𝑋
+1
++
+𝑋
+2
++
+.
+.
+.
++
+𝑋
+𝑛
+𝑛
+SMA= 
+n
+X 
+1
+​
+ +X 
+2
+​
+ +...+X 
+n
+​
+ 
+​
+ 
+Where:
 
-#### 🧮 Key Parameters
-- `alpha`: Level smoothing factor
-- `beta`: Trend smoothing factor
+𝑋
+1
+,
+𝑋
+2
+,
+.
+.
+.
+,
+𝑋
+𝑛
+X 
+1
+​
+ ,X 
+2
+​
+ ,...,X 
+n
+​
+  are the most recent sensor values
 
-#### 🧠 Why Selected
-- **Handles trend and fluctuation**: Smoother and more accurate for gradually changing sensor environments.
-- **Flexible**: Adjusts dynamically with the incoming data.
-- **Best for**: Periodic or gradually changing environments (e.g., temperature variation over a day).
-
-#### 📉 Limitations
-- Requires parameter tuning (`alpha`, `beta`)
-- Does not account for complex seasonality (e.g., weekly or monthly cycles unless extended)
+𝑛
+n is the number of periods (e.g., last 5 readings)
 
 ---
 
-## 📊 Comparison Summary
+❓ Why SMA is Selected
+Simplicity: Easy to implement using arrays and basic math.
 
-| Feature                  | Linear Regression      | Holt-Winters              |
-|--------------------------|------------------------|---------------------------|
-| Trend detection          | ✅ Yes                 | ✅ Yes                    |
-| Seasonality handling     | ❌ No                  | ⚠️ Partial (basic trend)  |
-| Complexity               | ✅ Low                 | ⚠️ Medium                 |
-| Apps Script compatibility| ✅ Easy to implement   | ✅ Easy to implement      |
-| Accuracy                 | ⚠️ Moderate            | ✅ Higher for trends      |
+Effectiveness: Reduces short-term fluctuation (noise) in DHT11 readings.
+
+Low Resource Use: Ideal for use in microcontrollers and cloud scripts like Google Apps Script.
 
 ---
 
-## 🛠 Implementation in Google Apps Script
+👍 Benefits
+Noise Reduction: Smoothens erratic sensor readings.
 
-Both algorithms were implemented in `generateForecasts()`:
+Real-Time Filtering: Provides more consistent data without delay.
 
-- `calculateLinearForecast()` – uses least squares method
-- `holtWintersForecast()` – uses smoothing formulas with parameters
+Easy to Implement: Requires minimal code and computational power.
 
-Forecast results are stored in a `Forecasts` sheet with:
-- Point forecast
-- Upper/Lower bounds (+/- 10% for uncertainty range)
+---
+
+⚠️ Limitations
+Lag: Introduces a slight delay in reflecting recent changes.
+
+Fixed Window Size: A static window may not be ideal for all scenarios.
+
+Not Ideal for Sudden Changes: SMA may under-represent rapid spikes or drops in temperature/humidity.
+
+---
+
+☁️ Google Apps Script Implementation
+Google Apps Script is used to log DHT11 sensor data (from ESP32 or similar) into Google Sheets and apply SMA for smoothing.
+
+function calculateSMA(values, period) {
+  if (values.length < period) return null;
+  
+  let sum = 0;
+  for (let i = values.length - period; i < values.length; i++) {
+    sum += values[i];
+  }
+  return sum / period;
+}
+
+function logSensorData(temp, hum) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("SensorData");
+  sheet.appendRow([new Date(), temp, hum]);
+
+  const data = sheet.getRange("B2:B").getValues().flat().filter(Number);
+  const sma = calculateSMA(data, 5); // Using last 5 readings
+
+  if (sma !== null) {
+    const row = sheet.getLastRow();
+    sheet.getRange(row, 4).setValue(sma); // Column D for SMA
+  }
+}
+
+
 
 ---
 
