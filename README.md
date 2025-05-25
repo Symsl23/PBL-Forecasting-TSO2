@@ -22,9 +22,7 @@ This project demonstrates the use of Simple Moving Average (SMA) to smooth out t
 
 ## ❓ Why SMA is Selected
 - Simplicity: Easy to implement using arrays and basic math.
-
 - Effectiveness: Reduces short-term fluctuation (noise) in DHT11 readings.
-
 - Low Resource Use: Ideal for use in microcontrollers and cloud scripts like Google Apps Script.
 
 ## 👍 Benefits
