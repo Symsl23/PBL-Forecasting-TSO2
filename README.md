@@ -28,18 +28,15 @@ This project demonstrates the use of Simple Moving Average (SMA) to smooth out t
 - Low Resource Use: Ideal for use in microcontrollers and cloud scripts like Google Apps Script.
 
 ## 👍 Benefits
-Noise Reduction: Smoothens erratic sensor readings.
 
-Real-Time Filtering: Provides more consistent data without delay.
-
-Easy to Implement: Requires minimal code and computational power.
+- Simple Forecasting Technique : Its predict the forecast value based on the recent data trends.
+- Noise Reduction : SMA help to smooth sensor data noise and give more stable value.
+- Easy to Implement : SMA used a basic math(everage calculation) to predict next value.
 
 ## ⚠️ Limitations
-Lag: Introduces a slight delay in reflecting recent changes.
 
-Fixed Window Size: A static window may not be ideal for all scenarios.
-
-Not Ideal for Sudden Changes: SMA may under-represent rapid spikes or drops in temperature/humidity.
+- Poor for Long-Term Forecasting : Its work well for short-term and not suitable for long-term or irregular patterns.
+- Cannot Handle Missing or Irregular Data : Gaps or inconsistent reading can affect the average value.
 
 ## ☁️ Google Apps Script Implementation
 Google Apps Script is used to log DHT11 sensor data (from ESP32 or similar) into Google Sheets and apply SMA for smoothing.
