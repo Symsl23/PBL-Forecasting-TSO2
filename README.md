@@ -23,64 +23,13 @@ This project demonstrates the use of Simple Moving Average (SMA) to smooth out t
 ## 🧮 Formula
 The Simple Moving Average (SMA) of a data series is calculated by taking the arithmetic mean of the latest n data points.
 
-𝑆
-𝑀
-𝐴
-=
-𝑋
-1
-+
-𝑋
-2
-+
-.
-.
-.
-+
-𝑋
-𝑛
-𝑛
-SMA= 
-n
-X 
-1
-​
- +X 
-2
-​
- +...+X 
-n
-​
- 
-​
- 
+\[
+SMA = \frac{X_1 + X_2 + ... + X_n}{n}
+\]
+
 Where:
-
-𝑋
-1
-,
-𝑋
-2
-,
-.
-.
-.
-,
-𝑋
-𝑛
-X 
-1
-​
- ,X 
-2
-​
- ,...,X 
-n
-​
-  are the most recent sensor values
-
-𝑛
-n is the number of periods (e.g., last 5 readings)
+- \( X_1, X_2, ..., X_n \) are the most recent sensor values
+- \( n \) is the number of periods (e.g., last 5 readings)
 
 ## ❓ Why SMA is Selected
 Simplicity: Easy to implement using arrays and basic math.
